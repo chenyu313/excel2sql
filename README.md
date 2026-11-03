@@ -126,6 +126,7 @@ npm run sample  # 生成 samples/员工信息.xlsx 示例文件
   - `xlsx` 高危漏洞**已修复**：已从 SheetJS 官方 CDN 获取修复版 0.20.3 并以 `file:vendor/xlsx-0.20.3.tgz` 本地依赖方式内置（npm registry 停留在有漏洞的 0.18.5，官方修复版仅发布在其 CDN）。生产依赖审计为 0。请勿删除 `vendor/` 目录。
   - 其余漏洞全部位于 `electron` / `electron-builder` 打包工具链（devDependencies）与 `vite` 开发服务器，仅在开发/打包时存在，不进入分发应用的运行时，可安全忽略。**请勿执行 `npm audit fix --force`**，会破坏依赖版本。
 - **`install-scripts` 警告**：本机 npm 安全策略会拦截依赖的安装脚本。esbuild / fsevents 已通过可选依赖自带二进制，不受影响；Electron 二进制下载方式见上一条。
+- **`dist:mac` 卡在 `packaging platform=darwin` 不动**：electron-builder 需从 GitHub 下载 Electron zip（约 95MB），网络慢时会假死。修复：确认完整 zip 已在缓存后重跑即可，缓存路径为 `~/Library/Caches/electron/electron-v<版本>-darwin-arm64.zip`（可先执行 `ELECTRON_MIRROR=https://npmmirror.com/mirrors/electron/ node node_modules/electron/install.js` 下载，再从其缓存子目录拷贝到该路径）。
 - **端口被占用**：`PORT=5300 npm start` 指定其他端口。
 - **大文件限制**：默认 25MB，修改 `backend/src/app.js` 中 `fileSize` 上限。
 - **上传会话过期**：解析结果保留 30 分钟，超时后重新上传即可。
