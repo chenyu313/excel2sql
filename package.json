@@ -1,0 +1,35 @@
+{
+  "name": "excel2sql",
+  "version": "1.0.0",
+  "description": "Excel 转 SQL 工具：支持批量 INSERT / UPDATE / DELETE 语句生成，可打包为 macOS / Windows 桌面应用",
+  "main": "electron/main.js",
+  "author": "excel2sql",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "postinstall": "npm --prefix frontend install",
+    "dev": "concurrently -n backend,frontend -c blue,green \"npm run dev:backend\" \"npm run dev:frontend\"",
+    "dev:backend": "node --watch backend/server.js",
+    "dev:frontend": "npm --prefix frontend run dev",
+    "build": "npm --prefix frontend run build",
+    "start": "node backend/server.js",
+    "test": "node --test backend/test/*.test.js",
+    "smoke": "node scripts/smoke-test.js",
+    "sample": "node scripts/make-sample.js",
+    "electron": "npm run build && electron .",
+    "dist:mac": "npm run build && electron-builder --mac",
+    "dist:win": "npm run build && electron-builder --win",
+    "dist": "npm run build && electron-builder -mw"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.21.2",
+    "multer": "^2.0.1",
+    "xlsx": "file:vendor/xlsx-0.20.3.tgz"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.0",
+    "electron": "^33.2.0",
+    "electron-builder": "^25.1.8"
+  }
+}

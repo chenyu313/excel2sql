@@ -1,0 +1,18 @@
+{
+  "name": "excel2sql-backend",
+  "version": "1.0.0",
+  "description": "Excel2SQL 后端服务：Excel 解析与 SQL 生成 API",
+  "main": "server.js",
+  "private": true,
+  "scripts": {
+    "dev": "node --watch server.js",
+    "start": "node server.js",
+    "test": "node --test test/"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.21.2",
+    "multer": "^2.0.1",
+    "xlsx": "file:../vendor/xlsx-0.20.3.tgz"
+  }
+}

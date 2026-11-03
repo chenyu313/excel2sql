@@ -1,0 +1,32 @@
+appId: com.excel2sql.app
+productName: Excel2SQL
+copyright: Copyright © 2026
+
+asar: true
+
+files:
+  - package.json
+  - electron/**
+  - backend/**
+  - frontend/dist/**
+
+directories:
+  output: release
+
+mac:
+  category: public.app-category.utilities
+  target:
+    - dmg
+    - zip
+
+win:
+  target:
+    - nsis
+    - portable
+
+nsis:
+  oneClick: false
+  perMachine: false
+  allowToChangeInstallationDirectory: true
+  createDesktopShortcut: true
+  shortcutName: Excel2SQL
