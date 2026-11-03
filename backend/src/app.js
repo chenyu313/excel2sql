@@ -16,6 +16,18 @@ const upload = multer({
 
 const ALLOWED_EXT = ['.xlsx', '.xls', '.csv'];
 
+/**
+ * 修复 multer(busboy) 将 multipart 中的 UTF-8 文件名按 Latin-1 解码导致的中文乱码
+ * （如「员工信息.xlsx」变成「åå·¥ä¿¡æ¯.xlsx」）。
+ * 仅在能还原为合法 UTF-8 时采用转换结果；出现替换字符（U+FFFD）说明原名并非
+ * UTF-8 被误读，按原样返回，避免误伤纯 ASCII / 真实 Latin-1 名称。
+ */
+function decodeFileName(name) {
+  if (!name) return name;
+  const converted = Buffer.from(name, 'latin1').toString('utf8');
+  return converted.includes('�') ? name : converted;
+}
+
 function createApp() {
   const app = express();
   app.use(cors());
@@ -33,7 +45,9 @@ function createApp() {
     try {
       if (!req.file) return res.status(400).json({ error: '请上传 Excel 文件' });
 
-      const ext = path.extname(req.file.originalname || '').toLowerCase();
+      const fileName = decodeFileName(req.file.originalname || '');
+
+      const ext = path.extname(fileName).toLowerCase();
       if (ext && !ALLOWED_EXT.includes(ext)) {
         return res.status(400).json({ error: `不支持的文件类型: ${ext}，仅支持 ${ALLOWED_EXT.join(' / ')}` });
       }
@@ -41,11 +55,11 @@ function createApp() {
       const sheets = parseWorkbook(req.file.buffer);
       if (!sheets.length) return res.status(400).json({ error: '文件中没有可用的工作表' });
 
-      const fileId = store.save({ fileName: req.file.originalname, sheets });
+      const fileId = store.save({ fileName, sheets });
 
       res.json({
         fileId,
-        fileName: req.file.originalname,
+        fileName,
         sheets: sheets.map(s => ({
           name: s.name,
           rowCount: s.rowCount,

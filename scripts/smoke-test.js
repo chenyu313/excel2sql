@@ -29,10 +29,11 @@ async function main() {
     const buf = XLSX.write(wb, { type: 'buffer', bookType: 'xlsx' });
 
     const fd = new FormData();
-    fd.append('file', new Blob([buf]), 'demo.xlsx');
+    fd.append('file', new Blob([buf]), '员工信息.xlsx'); // 中文文件名：验证 multer Latin-1 乱码修复
     const parseRes = await fetch(`${base}/api/parse`, { method: 'POST', body: fd });
     const parsed = await parseRes.json();
     assert.equal(parseRes.ok, true, `parse: ${parsed.error || ''}`);
+    assert.equal(parsed.fileName, '员工信息.xlsx', '中文文件名出现乱码');
     assert.equal(parsed.sheets[0].rowCount, 3);
     assert.deepEqual(
       parsed.sheets[0].columns.map(c => c.type),
