@@ -20,6 +20,7 @@ async function createWindow() {
     minWidth: 960,
     minHeight: 640,
     title: 'Excel2SQL',
+    icon: path.join(__dirname, '../resources/icon.png'),
     autoHideMenuBar: true,
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
