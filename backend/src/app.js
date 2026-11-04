@@ -76,11 +76,11 @@ function createApp() {
 
   /**
    * 根据配置生成 SQL。
-   * body: { fileId, sheet, mode, tableName, dialect, batchSize, emptyAsNull, mapping }
+   * body: { fileId, sheet, mode, tableName, dbType, batchSize, emptyAsNull, mapping }
    */
   app.post('/api/generate', (req, res) => {
     try {
-      const { fileId, sheet, mode, tableName, dialect, batchSize, emptyAsNull, mapping } = req.body || {};
+      const { fileId, sheet, mode, tableName, dbType, batchSize, emptyAsNull, mapping } = req.body || {};
       const file = store.get(fileId);
       if (!file) return res.status(400).json({ error: '文件会话已过期，请重新上传' });
 
@@ -90,7 +90,7 @@ function createApp() {
       const result = generateSQL({
         mode,
         tableName,
-        dialect,
+        dbType,
         batchSize,
         mapping,
         emptyAsNull: emptyAsNull !== false,

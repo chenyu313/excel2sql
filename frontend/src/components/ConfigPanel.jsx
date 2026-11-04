@@ -6,7 +6,7 @@ const MODES = [
   { value: 'delete', label: '批量删除', desc: 'DELETE … WHERE 主键' },
 ];
 
-const DIALECTS = [
+const DB_TYPES = [
   { value: 'mysql', label: 'MySQL' },
   { value: 'postgresql', label: 'PostgreSQL' },
   { value: 'sqlserver', label: 'SQL Server' },
@@ -62,9 +62,9 @@ export default function ConfigPanel({ config, onChange, sheets, sheetName, onShe
       </label>
 
       <label className="field">
-        <span className="field-label">数据库方言</span>
-        <select value={config.dialect} onChange={e => set({ dialect: e.target.value })}>
-          {DIALECTS.map(d => (
+        <span className="field-label">数据库类型</span>
+        <select value={config.dbType} onChange={e => set({ dbType: e.target.value })}>
+          {DB_TYPES.map(d => (
             <option key={d.value} value={d.value}>
               {d.label}
             </option>

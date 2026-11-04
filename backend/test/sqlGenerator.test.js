@@ -58,7 +58,7 @@ test('insert: 生成多行 INSERT，单引号转义，空值为 NULL', () => {
   const { sql, statementCount, rowCount } = generateSQL({
     mode: 'insert',
     tableName: 'employees',
-    dialect: 'mysql',
+    dbType: 'mysql',
     batchSize: 10,
     headers,
     rows,
@@ -136,12 +136,12 @@ test('update/delete: 未勾选主键时报错', () => {
   assert.throws(() => generateSQL({ mode: 'delete', tableName: 't', headers, rows, mapping }), /主键/);
 });
 
-// ---------- 方言 ----------
+// ---------- 数据库类型 ----------
 
-test('dialect: sqlserver 使用方括号，postgresql 使用双引号和 TRUE/FALSE', () => {
-  const ms = generateSQL({ mode: 'insert', tableName: 't', dialect: 'sqlserver', headers, rows, mapping: baseMapping });
+test('数据库类型: sqlserver 使用方括号，postgresql 使用双引号和 TRUE/FALSE', () => {
+  const ms = generateSQL({ mode: 'insert', tableName: 't', dbType: 'sqlserver', headers, rows, mapping: baseMapping });
   assert.match(ms.sql, /INSERT INTO \[t\] \(\[id\]/);
-  const pg = generateSQL({ mode: 'insert', tableName: 't', dialect: 'postgresql', headers, rows, mapping: baseMapping });
+  const pg = generateSQL({ mode: 'insert', tableName: 't', dbType: 'postgresql', headers, rows, mapping: baseMapping });
   assert.match(pg.sql, /INSERT INTO "t" \("id"/);
   assert.match(pg.sql, /\bTRUE\b/);
   assert.match(pg.sql, /\bFALSE\b/);

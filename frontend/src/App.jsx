@@ -44,7 +44,7 @@ export default function App() {
   const [config, setConfig] = useState({
     mode: 'insert',
     tableName: '',
-    dialect: 'mysql',
+    dbType: 'mysql',
     batchSize: 100,
     emptyAsNull: true,
   });

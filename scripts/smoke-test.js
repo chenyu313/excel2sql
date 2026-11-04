@@ -57,7 +57,7 @@ async function main() {
           sheet: '员工',
           mode,
           tableName: 'employees',
-          dialect: 'mysql',
+          dbType: 'mysql',
           batchSize: 2,
           mapping,
         }),

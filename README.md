@@ -7,10 +7,10 @@ Excel 一键转换为标准 SQL 语句的桌面 / Web 工具，支持批量 **IN
 - **三种转换模式**：批量插入（多行 VALUES 合并）、批量更新（按主键 WHERE）、批量删除（按主键 WHERE）
 - **表头映射**：Excel 列名 → 数据库字段名自由编辑，可按列勾选是否参与转换
 - **字段类型自动识别**：INT / BIGINT / DECIMAL / DATE / DATETIME / BOOLEAN / VARCHAR(n) / TEXT，可手动覆盖
-- **自定义表名**、数据库方言（MySQL / PostgreSQL / SQL Server / Oracle / SQLite）、INSERT 批量大小
+- **自定义表名**、数据库类型（MySQL / PostgreSQL / SQL Server / Oracle / SQLite）、INSERT 批量大小
 - **SQL 预览**：语法高亮、统计信息、一键复制、导出 .sql 文件
 - **多工作表**：自动识别并支持切换；空单元格可配置为 NULL
-- **安全可靠**：字符串单引号转义、标识符按方言引用、WHERE 空值自动使用 `IS NULL`
+- **安全可靠**：字符串单引号转义、标识符按数据库类型引用、WHERE 空值自动使用 `IS NULL`
 
 ## 技术栈与目录结构
 
@@ -97,7 +97,7 @@ npm run sample  # 生成 samples/员工信息.xlsx 示例文件
 ## 使用流程
 
 1. **上传文件**：点击或拖拽 `.xlsx / .xls / .csv`（单文件最大 25MB）；
-2. **转换配置**：选择工作表、转换模式、目标表名、数据库方言、批量大小；
+2. **转换配置**：选择工作表、转换模式、目标表名、数据库类型、批量大小；
 3. **字段映射**：编辑数据库字段名与类型，勾选参与转换的列；UPDATE / DELETE 模式需勾选主键；
 4. **生成 SQL**：预览高亮 SQL，复制或下载 `.sql` 文件。
 
@@ -107,7 +107,7 @@ npm run sample  # 生成 samples/员工信息.xlsx 示例文件
 | --- | --- | --- |
 | `/api/health` | GET | 健康检查 |
 | `/api/parse` | POST | multipart 上传 `file`，返回 `fileId`、工作表、表头、推断类型、前 5 行样例 |
-| `/api/generate` | POST | JSON：`{ fileId, sheet, mode, tableName, dialect, batchSize, emptyAsNull, mapping }`，返回 `{ sql, statementCount, rowCount }` |
+| `/api/generate` | POST | JSON：`{ fileId, sheet, mode, tableName, dbType, batchSize, emptyAsNull, mapping }`，返回 `{ sql, statementCount, rowCount }` |
 
 `mapping` 项格式：`{ excelCol, field, type, include, isKey }`。
 
