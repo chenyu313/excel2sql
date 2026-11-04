@@ -8,6 +8,7 @@ Excel 一键转换为标准 SQL 语句的桌面 / Web 工具，支持批量 **IN
 - **表头映射**：Excel 列名 → 数据库字段名自由编辑，可按列勾选是否参与转换
 - **字段类型自动识别**：INT / BIGINT / DECIMAL / DATE / DATETIME / BOOLEAN / VARCHAR(n) / TEXT，可手动覆盖
 - **自定义表名**、数据库类型（MySQL / PostgreSQL / SQL Server / Oracle / SQLite）、INSERT 批量大小
+- **多语言界面**：内置简体中文 / English / 日本語，右上角一键切换，偏好自动记忆
 - **SQL 预览**：语法高亮、统计信息、一键复制、导出 .sql 文件
 - **多工作表**：自动识别并支持切换；空单元格可配置为 NULL
 - **安全可靠**：字符串单引号转义、标识符按数据库类型引用、WHERE 空值自动使用 `IS NULL`

@@ -1,7 +1,9 @@
 import React, { useMemo, useState } from 'react';
 import { tokenizeSql } from '../highlight';
+import { useI18n } from '../i18n/index.jsx';
 
 export default function SqlPreview({ sql, stats, tableName, mode }) {
+  const { t } = useI18n();
   const [copied, setCopied] = useState(false);
   const tokens = useMemo(() => tokenizeSql(sql), [sql]);
 
@@ -33,20 +35,20 @@ export default function SqlPreview({ sql, stats, tableName, mode }) {
   return (
     <div className="sql-preview">
       <div className="card-title-row">
-        <h2 className="card-title">4. SQL 预览</h2>
+        <h2 className="card-title">{t('sql.title')}</h2>
         <div className="actions">
           <button className="btn" onClick={copy} disabled={!sql}>
-            {copied ? '已复制 ✓' : '复制 SQL'}
+            {copied ? t('sql.copied') : t('sql.copy')}
           </button>
           <button className="btn" onClick={download} disabled={!sql}>
-            下载 .sql
+            {t('sql.download')}
           </button>
         </div>
       </div>
 
       {stats && (
         <div className="stats">
-          {stats.rowCount} 行数据 · {stats.statementCount} 条语句 · {new Blob([sql]).size} 字节
+          {t('sql.stats', { rows: stats.rowCount, count: stats.statementCount, bytes: new Blob([sql]).size })}
         </div>
       )}
 
@@ -59,7 +61,7 @@ export default function SqlPreview({ sql, stats, tableName, mode }) {
           ))}
         </pre>
       ) : (
-        <div className="empty">配置完成后点击左侧「生成 SQL」，结果将在此显示</div>
+        <div className="empty">{t('sql.empty')}</div>
       )}
     </div>
   );

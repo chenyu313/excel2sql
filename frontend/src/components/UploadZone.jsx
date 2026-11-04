@@ -1,6 +1,8 @@
 import React, { useRef, useState } from 'react';
+import { useI18n } from '../i18n/index.jsx';
 
 export default function UploadZone({ fileName, busy, onFile }) {
+  const { t } = useI18n();
   const inputRef = useRef(null);
   const [dragOver, setDragOver] = useState(false);
 
@@ -11,7 +13,7 @@ export default function UploadZone({ fileName, busy, onFile }) {
 
   return (
     <div>
-      <h2 className="card-title">1. 上传文件</h2>
+      <h2 className="card-title">{t('upload.title')}</h2>
       <div
         className={`upload-zone${dragOver ? ' drag-over' : ''}${busy ? ' disabled' : ''}`}
         onClick={() => !busy && inputRef.current?.click()}
@@ -34,12 +36,12 @@ export default function UploadZone({ fileName, busy, onFile }) {
         {fileName ? (
           <>
             <div className="upload-name">{fileName}</div>
-            <div className="upload-hint">点击或拖拽可更换文件</div>
+            <div className="upload-hint">{t('upload.replace')}</div>
           </>
         ) : (
           <>
-            <div className="upload-name">点击选择或拖拽 Excel 文件到此处</div>
-            <div className="upload-hint">支持 .xlsx / .xls / .csv，单文件最大 25MB</div>
+            <div className="upload-name">{t('upload.name')}</div>
+            <div className="upload-hint">{t('upload.hint')}</div>
           </>
         )}
       </div>

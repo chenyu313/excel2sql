@@ -1,6 +1,8 @@
 import React from 'react';
+import { useI18n } from '../i18n/index.jsx';
 
 export default function DataPreview({ sheet }) {
+  const { t } = useI18n();
   if (!sheet) return null;
 
   const cols = sheet.columns.map(c => c.name);
@@ -8,9 +10,9 @@ export default function DataPreview({ sheet }) {
   return (
     <div>
       <h2 className="card-title">
-        数据预览
+        {t('preview.title')}
         <span className="title-tip">
-          （{sheet.name} · 共 {sheet.rowCount} 行，显示前 {sheet.sample.length} 行）
+          {t('preview.tip', { name: sheet.name, total: sheet.rowCount, shown: sheet.sample.length })}
         </span>
       </h2>
       <div className="table-scroll">

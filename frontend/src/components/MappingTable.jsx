@@ -1,13 +1,15 @@
 import React from 'react';
+import { useI18n } from '../i18n/index.jsx';
 
 export default function MappingTable({ mapping, onChange, mode, typeOptions }) {
+  const { t } = useI18n();
   const showKey = mode !== 'insert';
 
   if (!mapping.length) {
     return (
       <div>
-        <h2 className="card-title">3. 字段映射</h2>
-        <div className="empty">上传 Excel 文件后，可在此调整字段名、类型与主键</div>
+        <h2 className="card-title">{t('mapping.title')}</h2>
+        <div className="empty">{t('mapping.empty')}</div>
       </div>
     );
   }
@@ -17,18 +19,18 @@ export default function MappingTable({ mapping, onChange, mode, typeOptions }) {
   return (
     <div>
       <h2 className="card-title">
-        3. 字段映射
-        {showKey && <span className="title-tip">（UPDATE / DELETE 需勾选主键作为 WHERE 条件）</span>}
+        {t('mapping.title')}
+        {showKey && <span className="title-tip">{t('mapping.keyTip')}</span>}
       </h2>
       <div className="table-scroll">
         <table className="mapping-table">
           <thead>
             <tr>
-              <th style={{ width: 44 }}>包含</th>
-              <th>Excel 列名</th>
-              <th>数据库字段名</th>
-              <th style={{ width: 160 }}>字段类型</th>
-              {showKey && <th style={{ width: 56 }}>主键</th>}
+              <th style={{ width: 44 }}>{t('mapping.col.include')}</th>
+              <th>{t('mapping.col.excel')}</th>
+              <th>{t('mapping.col.field')}</th>
+              <th style={{ width: 160 }}>{t('mapping.col.type')}</th>
+              {showKey && <th style={{ width: 56 }}>{t('mapping.col.key')}</th>}
             </tr>
           </thead>
           <tbody>

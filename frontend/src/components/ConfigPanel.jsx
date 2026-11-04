@@ -1,9 +1,10 @@
 import React from 'react';
+import { useI18n } from '../i18n/index.jsx';
 
 const MODES = [
-  { value: 'insert', label: '批量插入', desc: 'INSERT INTO … VALUES' },
-  { value: 'update', label: '批量更新', desc: 'UPDATE … WHERE 主键' },
-  { value: 'delete', label: '批量删除', desc: 'DELETE … WHERE 主键' },
+  { value: 'insert', labelKey: 'mode.insert.label', descKey: 'mode.insert.desc' },
+  { value: 'update', labelKey: 'mode.update.label', descKey: 'mode.update.desc' },
+  { value: 'delete', labelKey: 'mode.delete.label', descKey: 'mode.delete.desc' },
 ];
 
 const DB_TYPES = [
@@ -15,19 +16,20 @@ const DB_TYPES = [
 ];
 
 export default function ConfigPanel({ config, onChange, sheets, sheetName, onSheetChange, disabled }) {
+  const { t } = useI18n();
   const set = patch => onChange({ ...config, ...patch });
 
   return (
     <div className={disabled ? 'panel-disabled' : ''}>
-      <h2 className="card-title">2. 转换配置</h2>
+      <h2 className="card-title">{t('config.title')}</h2>
 
       {sheets.length > 1 && (
         <label className="field">
-          <span className="field-label">工作表</span>
+          <span className="field-label">{t('config.sheet')}</span>
           <select value={sheetName} onChange={e => onSheetChange(e.target.value)}>
             {sheets.map(s => (
               <option key={s.name} value={s.name}>
-                {s.name}（{s.rowCount} 行）
+                {t('config.sheetRows', { name: s.name, count: s.rowCount })}
               </option>
             ))}
           </select>
@@ -35,7 +37,7 @@ export default function ConfigPanel({ config, onChange, sheets, sheetName, onShe
       )}
 
       <div className="field">
-        <span className="field-label">转换模式</span>
+        <span className="field-label">{t('config.mode')}</span>
         <div className="mode-group">
           {MODES.map(m => (
             <button
@@ -44,25 +46,25 @@ export default function ConfigPanel({ config, onChange, sheets, sheetName, onShe
               className={`mode-item${config.mode === m.value ? ' active' : ''}`}
               onClick={() => set({ mode: m.value })}
             >
-              <span className="mode-label">{m.label}</span>
-              <span className="mode-desc">{m.desc}</span>
+              <span className="mode-label">{t(m.labelKey)}</span>
+              <span className="mode-desc">{t(m.descKey)}</span>
             </button>
           ))}
         </div>
       </div>
 
       <label className="field">
-        <span className="field-label">目标表名</span>
+        <span className="field-label">{t('config.tableName')}</span>
         <input
           type="text"
           value={config.tableName}
-          placeholder="例如 employees"
+          placeholder={t('config.tableNamePlaceholder')}
           onChange={e => set({ tableName: e.target.value })}
         />
       </label>
 
       <label className="field">
-        <span className="field-label">数据库类型</span>
+        <span className="field-label">{t('config.dbType')}</span>
         <select value={config.dbType} onChange={e => set({ dbType: e.target.value })}>
           {DB_TYPES.map(d => (
             <option key={d.value} value={d.value}>
@@ -74,7 +76,7 @@ export default function ConfigPanel({ config, onChange, sheets, sheetName, onShe
 
       {config.mode === 'insert' && (
         <label className="field">
-          <span className="field-label">单条 INSERT 行数（批量大小）</span>
+          <span className="field-label">{t('config.batchSize')}</span>
           <input
             type="number"
             min="1"
@@ -91,7 +93,7 @@ export default function ConfigPanel({ config, onChange, sheets, sheetName, onShe
           checked={config.emptyAsNull}
           onChange={e => set({ emptyAsNull: e.target.checked })}
         />
-        <span>空单元格转为 NULL（否则为空字符串）</span>
+        <span>{t('config.emptyAsNull')}</span>
       </label>
     </div>
   );

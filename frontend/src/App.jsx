@@ -5,6 +5,8 @@ import ConfigPanel from './components/ConfigPanel.jsx';
 import MappingTable from './components/MappingTable.jsx';
 import DataPreview from './components/DataPreview.jsx';
 import SqlPreview from './components/SqlPreview.jsx';
+import LanguageSwitcher from './components/LanguageSwitcher.jsx';
+import { useI18n } from './i18n/index.jsx';
 
 const TYPE_OPTIONS = [
   'INT',
@@ -39,6 +41,7 @@ function buildMapping(sheet) {
 }
 
 export default function App() {
+  const { t } = useI18n();
   const [fileInfo, setFileInfo] = useState(null);
   const [sheetName, setSheetName] = useState('');
   const [config, setConfig] = useState({
@@ -66,7 +69,7 @@ export default function App() {
     setStats(null);
     try {
       const info = await parseFile(file);
-      if (!info.sheets.length) throw new Error('文件中没有可用的工作表');
+      if (!info.sheets.length) throw new Error(t('error.noSheet'));
       setFileInfo(info);
       setSheetName(info.sheets[0].name);
       setMapping(buildMapping(info.sheets[0]));
@@ -91,10 +94,10 @@ export default function App() {
 
   async function onGenerate() {
     setError('');
-    if (!fileInfo || !sheet) return setError('请先上传 Excel 文件');
-    if (!config.tableName.trim()) return setError('请填写目标表名');
+    if (!fileInfo || !sheet) return setError(t('error.noFile'));
+    if (!config.tableName.trim()) return setError(t('error.noTable'));
     if (config.mode !== 'insert' && !mapping.some(m => m.isKey && m.include !== false)) {
-      return setError('UPDATE / DELETE 模式需要在字段映射中至少勾选一个主键');
+      return setError(t('error.noKey'));
     }
     setBusy(true);
     try {
@@ -118,14 +121,15 @@ export default function App() {
       <header className="app-header">
         <div>
           <h1>Excel2SQL</h1>
-          <p>Excel 一键转换为批量 INSERT / UPDATE / DELETE 语句</p>
+          <p>{t('app.tagline')}</p>
         </div>
+        <LanguageSwitcher />
       </header>
 
       {error && (
         <div className="toast" role="alert">
           <span>{error}</span>
-          <button className="toast-close" onClick={() => setError('')} aria-label="关闭">
+          <button className="toast-close" onClick={() => setError('')} aria-label={t('toast.close')}>
             ×
           </button>
         </div>
@@ -149,7 +153,7 @@ export default function App() {
           </section>
 
           <button className="btn-primary btn-generate" onClick={onGenerate} disabled={!fileInfo || busy}>
-            {busy ? '处理中…' : '生成 SQL'}
+            {busy ? t('app.generating') : t('app.generate')}
           </button>
         </aside>
 
