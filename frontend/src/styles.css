@@ -315,6 +315,132 @@ th {
   border-color: var(--primary);
 }
 
+/* ---------- 字段类型下拉 ---------- */
+
+.type-select {
+  position: relative;
+  display: block;
+  min-width: 120px;
+}
+
+.type-select input[type='text'] {
+  padding-right: 26px;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+.type-select input[type='text']:hover {
+  border-color: #c3cddc;
+}
+
+.type-select input[type='text']:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(59, 110, 246, 0.15);
+}
+
+.type-select-arrow {
+  position: absolute;
+  top: 50%;
+  right: 8px;
+  width: 14px;
+  height: 14px;
+  transform: translateY(-50%);
+  color: var(--muted);
+  pointer-events: none;
+  transition: transform 0.16s ease, color 0.16s ease;
+}
+
+.type-select.is-open .type-select-arrow {
+  color: var(--primary);
+  transform: translateY(-50%) rotate(180deg);
+}
+
+.type-select-menu {
+  position: fixed;
+  z-index: 50;
+  margin: 0;
+  padding: 4px;
+  list-style: none;
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  box-shadow: 0 10px 28px rgba(16, 24, 40, 0.14), 0 2px 6px rgba(16, 24, 40, 0.06);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-6px) scale(0.98);
+  transform-origin: top center;
+  pointer-events: none;
+  transition: opacity 0.16s ease, transform 0.16s ease, visibility 0.16s;
+}
+
+.type-select-menu.open {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0) scale(1);
+  pointer-events: auto;
+}
+
+.type-select-option {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 7px 10px;
+  border-radius: 6px;
+  font-size: 13px;
+  line-height: 1.4;
+  color: var(--text);
+  cursor: pointer;
+  transition: background 0.12s ease, color 0.12s ease;
+}
+
+.type-select-option + .type-select-option {
+  margin-top: 2px;
+}
+
+.type-select-option.is-active {
+  background: var(--primary-soft);
+  color: var(--primary-dark);
+}
+
+.type-select-option.is-selected {
+  font-weight: 600;
+  color: var(--primary);
+}
+
+.type-select-option.is-selected.is-active {
+  background: var(--primary-soft);
+}
+
+.type-select-check {
+  width: 14px;
+  height: 14px;
+  flex: none;
+  color: var(--primary);
+}
+
+.type-select-menu::-webkit-scrollbar {
+  width: 8px;
+}
+
+.type-select-menu::-webkit-scrollbar-thumb {
+  background: #d5dbe6;
+  border-radius: 4px;
+}
+
+.type-select-menu::-webkit-scrollbar-thumb:hover {
+  background: #c3cddc;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .type-select-menu,
+  .type-select-arrow,
+  .type-select input[type='text'] {
+    transition: none;
+  }
+}
+
 .cell-excel-col {
   font-weight: 500;
 }

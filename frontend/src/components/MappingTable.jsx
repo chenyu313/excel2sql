@@ -1,5 +1,6 @@
 import React from 'react';
 import { useI18n } from '../i18n/index.jsx';
+import TypeSelect from './TypeSelect.jsx';
 
 export default function MappingTable({ mapping, onChange, mode, typeOptions }) {
   const { t } = useI18n();
@@ -53,7 +54,7 @@ export default function MappingTable({ mapping, onChange, mode, typeOptions }) {
                     <input type="text" value={m.field} onChange={e => update(i, { field: e.target.value })} />
                   </td>
                   <td>
-                    <input type="text" list="type-options" value={m.type} onChange={e => update(i, { type: e.target.value })} />
+                    <TypeSelect value={m.type} options={typeOptions} onChange={v => update(i, { type: v })} />
                   </td>
                   {showKey && (
                     <td>
@@ -66,11 +67,6 @@ export default function MappingTable({ mapping, onChange, mode, typeOptions }) {
           </table>
         </div>
       )}
-      <datalist id="type-options">
-        {typeOptions.map(t => (
-          <option key={t} value={t} />
-        ))}
-      </datalist>
     </div>
   );
 }
