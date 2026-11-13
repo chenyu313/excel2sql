@@ -36,6 +36,8 @@ export default {
   'mapping.col.field': 'DB フィールド名',
   'mapping.col.type': 'フィールド型',
   'mapping.col.key': '主キー',
+  'mapping.selectAll': 'すべて選択',
+  'mapping.deselectAll': 'すべて解除',
 
   'preview.title': 'データプレビュー',
   'preview.tip': '（{name} · 全 {total} 行、先頭 {shown} 行を表示）',

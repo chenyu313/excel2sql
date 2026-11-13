@@ -36,6 +36,8 @@ export default {
   'mapping.col.field': '数据库字段名',
   'mapping.col.type': '字段类型',
   'mapping.col.key': '主键',
+  'mapping.selectAll': '全选',
+  'mapping.deselectAll': '取消全选',
 
   'preview.title': '数据预览',
   'preview.tip': '（{name} · 共 {total} 行，显示前 {shown} 行）',

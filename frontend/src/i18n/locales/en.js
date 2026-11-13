@@ -36,6 +36,8 @@ export default {
   'mapping.col.field': 'Database Field',
   'mapping.col.type': 'Field Type',
   'mapping.col.key': 'Key',
+  'mapping.selectAll': 'Select all',
+  'mapping.deselectAll': 'Deselect all',
 
   'preview.title': 'Data Preview',
   'preview.tip': '({name} · {total} rows total, showing first {shown})',
