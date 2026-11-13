@@ -7,7 +7,7 @@ export default function MappingTable({ mapping, onChange, mode, typeOptions }) {
 
   const isEmpty = !mapping.length;
   const allIncluded = !isEmpty && mapping.every(m => m.include !== false);
-  const noneIncluded = !isEmpty && mapping.every(m => m.include === false);
+  const noneIncluded = !isEmpty && !mapping.some(m => m.include !== false);
 
   const update = (i, patch) => onChange(mapping.map((m, j) => (j === i ? { ...m, ...patch } : m)));
   const setAllIncluded = include => onChange(mapping.map(m => ({ ...m, include })));
